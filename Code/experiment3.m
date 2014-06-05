@@ -37,18 +37,22 @@ disp(['Error in depatchified reconstruction: ', num2str( norm(A-Arecon,'fro')) ]
 figure('position',[300   415   860   383])
 subplot(1,2,1)
 imagesc(A),axis square,colormap gray
-title('Input Image')
+title('Input Image','fontsize',14)
+axis off
 
 subplot(1,2,2)
 imagesc(A_k),axis square,colormap gray
-title('Original Rank-k')
+title('Original Rank-k','fontsize',14)
+axis off
+
 
 figure('position',[300   415   860   383])
 subplot(1,2,1)
 imagesc(Atilde),axis square,colormap gray
-title('Patchified Input Image')
+title('Patchified Input Image','fontsize',14)
+axis off
 
 subplot(1,2,2)
 imagesc(Arecon),axis square,colormap gray
-title('Depatchified Rank-k')
-
+title('Depatchified Recon','fontsize',14)
+axis off
