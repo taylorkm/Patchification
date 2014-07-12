@@ -1,5 +1,5 @@
 function Atilde = patchify(A,p)
-% Patchify
+% Split a matrix into non-overlapping p-by-p patches.  
 [n,m] = size(A);
 ntilde = n/p;
 mtilde = m/p;
@@ -9,8 +9,7 @@ Atilde = zeros( p^2, ntilde*mtilde );
 k = 1;
 
 for i = 1:ntilde
-    for j = 1:mtilde   
-    
+    for j = 1:mtilde       
         v = patches{i,j};               
         Atilde(:,k) = v(:);
         k = k + 1;

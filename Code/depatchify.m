@@ -1,4 +1,6 @@
 function A_recon = depatchify(Atk,p,n,m)
+% This function inverts the patchify function.  In other words
+% A = depatchify( patchify(A, p), p, size(A,1), size(A,2) )
 ntilde = n/p;
 mtilde = m/p;
 
