@@ -1,12 +1,17 @@
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% 
 % Consider a n-by-n image and its rank-k approximation.  Compare this with
 % another image obtained by depatchifying a rank-k approximation to a
-% patchified version of the n-by-n image.
+% patchified version of the n-by-n image. This experiment demonstrates that
+% the rank of the depatchified reconstruction exceeds k.
+% 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 n = 16; % look at n-by-n image
 p = sqrt(n);
 
 load trees;
-A = X(1:n,1:n);
+A = X(1:n,1:n); % extract images 
 
 
 Atilde = patchify(A, p); % patchified version of A
