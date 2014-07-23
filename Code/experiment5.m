@@ -5,17 +5,24 @@
 % 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-n = 252; % look at n-by-n image NO SUPPORT FOR CHANGING N
-load trees;
+n = 256; % look at n-by-n image NO SUPPORT FOR CHANGING N
+% load trees;
+X = double( imread('cameraman.tif') );
 A = X(1:n,1:n); % extract square image
 
+% guarantee input is rank k
+% k = 4;
+% [U,S,V] = svd(A);
+% A = U(:,1:k)*S(1:k,1:k)*V(:,1:k)';
 
-ps = [3]; % patch sizes
-ranks = 1:16;%1:128;
+
+ps = [4]; % patch sizes
+ranks = 1:32;%1:128;
 erSVDP = nan(length(ranks), length(ps));
 erNMFP = nan(length(ranks), length(ps));
 erSVD = nan(length(ranks), 1);
 erNMF = nan(length(ranks), 1);
+
 
 for i = 1:length(ps) % For each patch-size
     % Patchify and decopose
@@ -33,11 +40,11 @@ for i = 1:length(ps) % For each patch-size
         end
         % SVDP Error
         Arecon = Arecon + Sp(r,r)*Up(:,r)*Vp(:,r)';      
-        erSVDP(j,i) = norm( A - depatchify(Arecon, p, n, n), 'fro' );
+        erSVDP(j,i) = norm( A - depatchify( Arecon, p, n, n ), 'fro' );
 
-        % NMFP Error
+        % NMFP Error        
         [Wp,Hp] = nnmf( Ap, r );
-        erNMFP(j,i) = norm( A - depatchify(Wp*Hp, p, n, n), 'fro' );
+        erNMFP(j,i) = norm( A - depatchify( Wp*Hp, p, n, n ), 'fro' );
     end
     erSVDP(:,i) = erSVDP(:,i)/numel(A); % mse
     erNMFP(:,i) = erNMFP(:,i)/numel(A); % mse
@@ -66,11 +73,11 @@ plot(ranks, erSVDP, '.-',  'linewidth', 1.5)
 plot(ranks, erNMF,  'k--', 'linewidth', 1.5)
 plot(ranks, erNMFP, '.--', 'linewidth', 1.5)
 temp1 = arrayfun( @(x)['p = ',num2str(x),'(SVD)'], ps, 'un', 0);
-temp2 = arrayfun( @(x)['p = ',num2str(x),'(NFM)'], ps, 'un', 0);
+temp2 = arrayfun( @(x)['p = ',num2str(x),'(NMF)'], ps, 'un', 0);
 
-legend([{'SVD (w/o patchification)'},temp1,{'NMF (w/o patchification)'},temp2])
+legend( [{'SVD (w/o patchification)'},temp1,{'NMF (w/o patchification)'},temp2] )
 ylabel('MSE','fontsize',14)
-xlabel('Number of singular values used to reconstruct','fontsize',14)
+xlabel('k,\hat{k}','fontsize',14,'interpreter','latex')
 set(gca,'fontsize',14)
 title('Quality of reconstruction','fontsize',14)
 axis tight

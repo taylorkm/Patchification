@@ -7,7 +7,7 @@
 % 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
-n = 16; % look at n-by-n image
+n = 256; % look at n-by-n image
 p = sqrt(n);
 
 load trees;
@@ -22,10 +22,10 @@ Atilde = patchify(A, p); % patchified version of A
 % A difference between ds and dsa implies that Atilde cannnot represent A
 % for any basis, and in fact, A and Atilde are two different operators.
 
-ds = diag(S); % singular values of the original matrix
-dsa = diag(Stilde); % singular values of matrix with entries re-ordered.
+ds = eig(A);%diag(S); % singular values of the original matrix
+dsa = eig(Atilde);%diag(Stilde); % singular values of matrix with entries re-ordered.
 
-% Print out first five singular values
+% Print out first five singular values, showing that they are different
 disp( [ds(1:5), dsa(1:5)] )
 
 
