@@ -17,7 +17,7 @@ A = X(1:n,1:n); % extract square image
 
 
 ps = [4]; % patch sizes
-ranks = 1:32;%1:128;
+ranks = 1:32;
 erSVDP = nan(length(ranks), length(ps));
 erNMFP = nan(length(ranks), length(ps));
 erSVD = nan(length(ranks), 1);
@@ -28,7 +28,7 @@ for i = 1:length(ps) % For each patch-size
     % Patchify and decopose
     p = ps(i); % patch size
     Ap = patchify(A, p); 
-    [Up,Sp,Vp] = svd(Ap);
+    [Up,Sp,Vp] = svd(Ap,'econ');
     
     
     % Reconstruct
@@ -46,14 +46,14 @@ for i = 1:length(ps) % For each patch-size
         [Wp,Hp] = nnmf( Ap, r );
         erNMFP(j,i) = norm( A - depatchify( Wp*Hp, p, n, n ), 'fro' );
     end
-    erSVDP(:,i) = erSVDP(:,i)/numel(A); % mse
-    erNMFP(:,i) = erNMFP(:,i)/numel(A); % mse
+    erSVDP(:,i) = erSVDP(:,i)/numel(A);  % MSE
+    erNMFP(:,i) = erNMFP(:,i)/numel(A);  % MSE
 end
 
 
 
 % SVD Error
-[U ,S ,V ] = svd(A); % decompose
+[U ,S ,V ] = svd(A,'econ'); % decompose
 AreconSVD = zeros(n,n);
 for j = 1:length(ranks)
     r = ranks(j); 
@@ -68,16 +68,16 @@ erNMF = erNMF/numel(A);
 % Visualize results
 figure('Position', [268   281   895   423])
 hold all
-plot(ranks, erSVD,  'k.-', 'linewidth', 1.5)
-plot(ranks, erSVDP, '.-',  'linewidth', 1.5)
-plot(ranks, erNMF,  'k--', 'linewidth', 1.5)
-plot(ranks, erNMFP, '.--', 'linewidth', 1.5)
+plot(ranks, erSVD,  'k.-', 'linewidth', 2)
+plot(ranks, erSVDP, '.-',  'linewidth', 2)
+plot(ranks, erNMF,  'k--', 'linewidth', 2)
+plot(ranks, erNMFP, '.--', 'linewidth', 2)
 temp1 = arrayfun( @(x)['p = ',num2str(x),'(SVD)'], ps, 'un', 0);
 temp2 = arrayfun( @(x)['p = ',num2str(x),'(NMF)'], ps, 'un', 0);
 
 legend( [{'SVD (w/o patchification)'},temp1,{'NMF (w/o patchification)'},temp2] )
 ylabel('MSE','fontsize',14)
-xlabel('k,\hat{k}','fontsize',14,'interpreter','latex')
+xlabel('k(hat)','fontsize',14)
 set(gca,'fontsize',14)
 title('Quality of reconstruction','fontsize',14)
 axis tight
