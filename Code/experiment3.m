@@ -29,7 +29,7 @@ dsa = eig(Atilde);%diag(Stilde); % singular values of matrix with entries re-ord
 disp( [ds(1:5), dsa(1:5)] )
 
 
-k = 2;
+k = 5;
 
 A_k = U(:,1:k)*S(1:k,1:k)*V(:,1:k)'; % best rank-k approximation to A
 Atilde_k = Utilde(:,1:k)*Stilde(1:k,1:k)*Vtilde(:,1:k)'; % best rank-k approximation to P(A)

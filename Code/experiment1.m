@@ -42,7 +42,7 @@ end
 [U,S,V] = svd(A);
 [Utilde,Stilde,Vtilde] = svd(Atilde);
 
-r = 7;
+r = 1;
 Ak  = U(:,1:r)*S(1:r,1:r)*V(:,1:r)';
 Atk = Utilde(:,1:r)*Stilde(1:r,1:r)*Vtilde(:,1:r)';
 

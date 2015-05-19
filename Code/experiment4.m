@@ -6,11 +6,12 @@
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 n = 256; % look at n-by-n image NO SUPPORT FOR CHANGING N
-load trees;
-A = X(1:n,1:n); % extract square image
+% load trees;
+% A = X(1:n,1:n); % extract square image
 
+A = double(imread('ImageDatabase/lena.jpg','jpg'));
 
-ps = [4, 8, 16, 32, 64, 128]; % patch sizes
+ps = [2, 4, 8, 16, 32, 64, 128]; % patch sizes
 ranks = 1:128;
 er = nan(length(ranks), length(ps));
 erSVD = nan(length(ranks), 1);
@@ -49,13 +50,13 @@ erSVD = erSVD/numel(A);
 % Visualize results
 figure('Position', [268   281   895   423])
 hold all
-plot(ranks,erSVD,'k.-','linewidth',1.5)
-plot(ranks,er,'.-','linewidth',1.5)
+plot(ranks, erSVD,'k.-','linewidth',1.5)
+plot(ranks, er,'.-','linewidth',1.5)
 temp = arrayfun(@(x)['p = ',num2str(x)],ps,'un',0);
 
 legend({'SVD (w/o patchification)',temp{:}})
 ylabel('MSE','fontsize',14)
-xlabel('Number of singular values used to reconstruct','fontsize',14)
+xlabel('k(-hat)','fontsize',14)
 set(gca,'fontsize',14)
 title('Quality of reconstruction','fontsize',14)
 axis tight

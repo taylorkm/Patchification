@@ -10,14 +10,14 @@ n = 256; % look at n-by-n image NO SUPPORT FOR CHANGING N
 X = double( imread('cameraman.tif') );
 A = X(1:n,1:n); % extract square image
 
-% guarantee input is rank k
+% guarantee input is rank kd
 % k = 4;
 % [U,S,V] = svd(A);
 % A = U(:,1:k)*S(1:k,1:k)*V(:,1:k)';
 
 
-ps = [4]; % patch sizes
-ranks = 1:32;
+ps = [4,8,16]; % patch sizes
+ranks = 1:20;
 erSVDP = nan(length(ranks), length(ps));
 erNMFP = nan(length(ranks), length(ps));
 erSVD = nan(length(ranks), 1);
@@ -68,9 +68,9 @@ erNMF = erNMF/numel(A);
 % Visualize results
 figure('Position', [268   281   895   423])
 hold all
-plot(ranks, erSVD,  'k.-', 'linewidth', 2)
+plot(ranks, erSVD,  '.-', 'linewidth', 2)
 plot(ranks, erSVDP, '.-',  'linewidth', 2)
-plot(ranks, erNMF,  'k--', 'linewidth', 2)
+plot(ranks, erNMF,  '--', 'linewidth', 2)
 plot(ranks, erNMFP, '.--', 'linewidth', 2)
 temp1 = arrayfun( @(x)['p = ',num2str(x),'(SVD)'], ps, 'un', 0);
 temp2 = arrayfun( @(x)['p = ',num2str(x),'(NMF)'], ps, 'un', 0);
